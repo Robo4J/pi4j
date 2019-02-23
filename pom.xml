@@ -99,11 +99,6 @@
 		<module>pi4j-distribution</module>
 	</modules>
 
-    <!-- PROJECT PREREQUISITES -->
-	<prerequisites>
-		<maven>3.0.5</maven>
-	</prerequisites>
-
 	<!-- BUILD PROPERTIES -->
 	<properties>
 
@@ -200,8 +195,8 @@
         <github.global.server>github</github.global.server>
 
         <!-- JAVA COMPILER VERSIONS -->
-        <jdk.source.version>1.8</jdk.source.version>
-        <jdk.target.version>1.8</jdk.target.version>
+        <jdk.source.version>11</jdk.source.version>
+        <jdk.target.version>11</jdk.target.version>
 
         <!-- DEPENDENCY VERSIONS -->
         <org.osgi.core.version>6.0.0</org.osgi.core.version>
@@ -581,6 +576,10 @@
                         <showDeprecation>true</showDeprecation>
                         <showWarnings>true</showWarnings>
                         <verbose>false</verbose>
+                        <compilerArgs>
+                            <arg>--add-exports</arg>
+                            <arg>java.base/jdk.internal.misc=ALL-UNNAMED</arg>
+                        </compilerArgs>
                     </configuration>
                 </plugin>
 
@@ -591,6 +590,27 @@
                     <version>${maven-jar-plugin.version}</version>
                 </plugin>
 
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.0.0-M2</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-maven</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireMavenVersion>
+                                        <version>3.6</version>
+                                    </requireMavenVersion>
+                                </rules>    
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
 
                 <!-- INCLUDE SOURCE JAR -->
                 <plugin>
